@@ -43,35 +43,6 @@ void Fill(AlignedArray* out, scalar_t val) {
   }
 }
 
-void _strided_index_setter(const AlignedArray* a, AlignedArray* out, std::vector<int32_t> shape,
-                    std::vector<int32_t> strides, size_t offset, int val=-1) {
-  int depth = shape.size();
-  std::vector<uint32_t> loop(depth, 0);
-  int cnt = 0;
-  while (true) {
-    // inner loop
-    int index = offset;
-    for (int i = 0; i < depth; i++) {
-      index += strides[i] * loop[i];
-    }
-    out->ptr[cnt++] = a->ptr[index]; break;
-
-    // increment
-    loop[depth - 1]++;
-
-    // carry
-    int idx = depth - 1;
-    while (loop[idx] == shape[idx]) {
-      if (idx == 0) {
-        // overflow
-        return;
-      }
-      loop[idx--] = 0;
-      loop[idx]++;
-    }
-  }
-}
-
 void Compact(const AlignedArray& a, AlignedArray* out, std::vector<int32_t> shape,
              std::vector<int32_t> strides, size_t offset) {
   /**
@@ -89,7 +60,35 @@ void Compact(const AlignedArray& a, AlignedArray* out, std::vector<int32_t> shap
    *  function will implement here, so we won't repeat this note.)
    */
   /// BEGIN SOLUTION 
-  _strided_index_setter(&a, out, shape, strides, offset); 
+  int shapesize = shape.size(); 
+  std::vector<int32_t> indices(shapesize, 0); 
+  int cnt = 0; 
+
+  while (true) { 
+    // compute the flattened index 
+    size_t flat_index = 0; 
+    for (int i = 0; i < indices.size(); i++) { 
+      flat_index += indices[i] * strides[i]; 
+    } 
+
+    out[cnt] = a.ptr[offset + flat_index]; 
+    cnt++; 
+
+    indices[shapesize - 1]++; 
+
+    // carry 
+    for (int i = shapesize - 1; i >= 0; i--) { 
+      if (indices[i] == shape[i]) { 
+        if (i == 0) { 
+          return; 
+        } 
+        indices[i] = 0; 
+        indices[i - 1]++; 
+      }else { 
+        break; 
+      }
+    } 
+  }
   /// END SOLUTION
 }
 

@@ -120,7 +120,8 @@ void EwiseSetitem(const AlignedArray& a, AlignedArray* out, std::vector<int32_t>
     indices[shapesize - 1]++; 
 
     // out[cnt] = a.ptr[offset + flat_index]; 
-    out.ptr[offset + flat_index] = a[cnt]; 
+    // out.ptr[offset + flat_index] = a[cnt]; 
+    out->ptr[offset + flat_index] = a.ptr[cnt]; 
     cnt++; 
 
     // carry 

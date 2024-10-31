@@ -384,6 +384,17 @@ class NDArray:
         new_shape = [] 
         for i, s in enumerate(idxs): 
             new_shape.append((s.stop - s.start) // s.step + 1) 
+        new_shape = tuple(new_shape) 
+        
+        new_offset = self._offset 
+        for i, s in enumerate(idxs): 
+            new_offset += s.start * self._strides[i] 
+        
+        new_stride = [] 
+        for i in range(self.ndim): 
+            new_stride.append(self._strides[i] * idxs[i].step) 
+        new_stride = tuple(new_stride) 
+        
         out = NDArray.make(self.shape, device = self.device, handle = self._handle, offset = self._offset) 
         return out 
         ### END YOUR SOLUTION

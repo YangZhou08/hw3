@@ -383,10 +383,10 @@ class NDArray:
         ### BEGIN YOUR SOLUTION 
         new_shape = [] 
         for i, s in enumerate(idxs): 
-            if s.step == 1: 
-                new_shape.append(s.stop - s.start) 
-            else: 
-                new_shape.append((s.stop - s.start + s.step - 1) // s.step) 
+            # if s.step == 1: 
+            #     new_shape.append(s.stop - s.start) 
+            # else: 
+            #     new_shape.append((s.stop - s.start + s.step - 1) // s.step) 
             new_shape.append((s.stop - s.start + s.step - 1) // s.step) 
         new_shape = tuple(new_shape) 
         

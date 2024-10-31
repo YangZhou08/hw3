@@ -275,8 +275,10 @@ class NDArray:
         ### BEGIN YOUR SOLUTION
         stride = self._strides 
         new_stride = [stride[i] for i in new_axes] 
+        new_stride = tuple(new_stride) 
         shape = self._shape 
         new_shape = [shape[i] for i in new_axes] 
+        new_shape = tuple(new_shape) 
         out = NDArray.make(new_shape, strides = new_stride, device = self.device, handle = self._handle, offset = self._offset) 
         
         return out 

@@ -387,6 +387,7 @@ class NDArray:
                 new_shape.append(s.stop - s.start) 
             else: 
                 new_shape.append((s.stop - s.start + s.step - 1) // s.step) 
+            new_shape.append((s.stop - s.start + s.step - 1) // s.step) 
         new_shape = tuple(new_shape) 
         
         new_offset = self._offset 

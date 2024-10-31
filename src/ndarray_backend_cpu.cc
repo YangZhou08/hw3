@@ -170,7 +170,7 @@ void ScalarSetitem(const size_t size, scalar_t val, AlignedArray* out, std::vect
 
     // out[cnt] = a.ptr[offset + flat_index]; 
     // out.ptr[offset + flat_index] = a[cnt]; 
-    out->ptr[offset + flat_index] = a.ptr[cnt]; 
+    out->ptr[offset + flat_index] = val; 
     cnt++; 
 
     // carry 

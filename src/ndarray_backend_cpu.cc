@@ -245,6 +245,78 @@ void ScalarMul(const AlignedArray& a, scalar_t val, AlignedArray* out) {
   }
 } 
 
+void EwiseDiv(const AlignedArray& a, const AlignedArray& b, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] / b.ptr[i]; 
+  } 
+} 
+
+void ScalarDiv(const AlignedArray& a, scalar_t val, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] / val; 
+  } 
+} 
+
+void ScalarPower(const AlignedArray& a, scalar_t val, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::pow(a.ptr[i], val); 
+  } 
+} 
+
+void EwiseMaximum(const AlignedArray& a, const AlignedArray& b, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::max(a.ptr[i], b.ptr[i]); 
+  } 
+} 
+
+void ScalarMaximum(const AlignedArray& a, scalar_t val, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::max(a.ptr[i], val); 
+  } 
+} 
+
+void EwiseEq(const AlignedArray& a, const AlignedArray& b, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] == b.ptr[i]; 
+  } 
+} 
+
+void ScalarEq(const AlignedArray& a, scalar_t val, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] == val; 
+  } 
+} 
+
+void EwiseGe(const AlignedArray& a, const AlignedArray& b, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] >= b.ptr[i]; 
+  } 
+} 
+
+void ScalarGe(const AlignedArray& a, scalar_t val, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = a.ptr[i] >= val; 
+  } 
+} 
+
+void EwiseLog(const AlignedArray& a, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::log(a.ptr[i]); 
+  } 
+} 
+
+void EwiseExp(const AlignedArray& a, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::exp(a.ptr[i]); 
+  } 
+} 
+
+void EwiseTanh(const AlignedArray& a, AlignedArray* out) { 
+  for (size_t i = 0; i < a.size; i++) { 
+    out->ptr[i] = std::tanh(a.ptr[i]); 
+  } 
+} 
+
 void Matmul(const AlignedArray& a, const AlignedArray& b, AlignedArray* out, uint32_t m, uint32_t n,
             uint32_t p) {
   /**

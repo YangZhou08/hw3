@@ -71,7 +71,7 @@ void Compact(const AlignedArray& a, AlignedArray* out, std::vector<int32_t> shap
       flat_index += indices[i] * strides[i]; 
     } 
 
-    out[cnt] = a.ptr[offset + flat_index]; 
+    out->ptr[cnt] = a.ptr[offset + flat_index]; 
     cnt++; 
 
     indices[shapesize - 1]++; 

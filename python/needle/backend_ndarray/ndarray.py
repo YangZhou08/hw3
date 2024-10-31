@@ -395,7 +395,7 @@ class NDArray:
             new_stride.append(self._strides[i] * idxs[i].step) 
         new_stride = tuple(new_stride) 
         
-        out = NDArray.make(self.shape, device = self.device, handle = self._handle, offset = self._offset) 
+        out = NDArray.make(new_shape, device = self.device, handle = self._handle, offset = new_offset, strides = new_stride) 
         return out 
         ### END YOUR SOLUTION
 

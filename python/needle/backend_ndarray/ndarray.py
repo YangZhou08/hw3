@@ -275,7 +275,9 @@ class NDArray:
         ### BEGIN YOUR SOLUTION
         stride = self._strides 
         new_stride = [stride[i] for i in new_axes] 
-        out = NDArray.make(self.shape, strides = new_stride, device = self.device) 
+        shape = self._shape 
+        new_shape = [shape[i] for i in new_axes] 
+        out = NDArray.make(new_shape, strides = new_stride, device = self.device) 
         
         return out 
         ### END YOUR SOLUTION

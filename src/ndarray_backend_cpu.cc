@@ -43,8 +43,8 @@ void Fill(AlignedArray* out, scalar_t val) {
   }
 }
 
-void _strided_index_setter(const AlignedArray* a, AlignedArray* out, std::vector<uint32_t> shape,
-                    std::vector<uint32_t> strides, size_t offset, int val=-1) {
+void _strided_index_setter(const AlignedArray* a, AlignedArray* out, std::vector<int32_t> shape,
+                    std::vector<int32_t> strides, size_t offset, int val=-1) {
   int depth = shape.size();
   std::vector<uint32_t> loop(depth, 0);
   int cnt = 0;

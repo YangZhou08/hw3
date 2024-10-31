@@ -304,7 +304,12 @@ class NDArray:
             point to the same memory as the original array.
         """
 
-        ### BEGIN YOUR SOLUTION
+        ### BEGIN YOUR SOLUTION 
+        new_stride = self._strides 
+        for i in range(len(new_shape)): 
+            if new_shape[i] != self.shape[i]: 
+                assert self.shape[i] == 1 
+                new_stride[i] = 0 
         out = NDArray.make(new_shape, device = self.device, handle = self._handle, offset = self._offset) # the strides are the same as the original array, because the broadcasted dimension still use stride 0 
         
         return out 

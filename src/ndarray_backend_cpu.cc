@@ -73,12 +73,13 @@ void Compact(const AlignedArray& a, AlignedArray* out, std::vector<int32_t> shap
       flat_index += indices[i] * strides[i]; 
     } 
 
-    indices[shapesize - 1]++; 
-
     out[cnt] = a.ptr[offset + flat_index]; 
     cnt++; 
 
+    indices[shapesize - 1]++; 
+
     // carry 
+    /*
     for (int i = shapesize - 1; i >= 0; i--) { 
       if (indices[i] == shape[i]) { 
         if (i == 0) { 
@@ -88,7 +89,16 @@ void Compact(const AlignedArray& a, AlignedArray* out, std::vector<int32_t> shap
         indices[i - 1]++; 
       } 
     } 
-
+    */ 
+    // Carry to the next dimension
+    for (int i = shapesize - 1; i >= 0; i--) {
+      if (indices[i] < shape[i]) {
+        break; // No carry needed, exit loop
+      }
+      if (i == 0) return; // Done with all elements
+      indices[i] = 0; // Reset and carry to next dimension
+      indices[i - 1]++;
+    }
   } 
   /// END SOLUTION
 }

@@ -247,7 +247,8 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        out = NDArray.make(new_shape, device = self.device) 
+        return out 
         ### END YOUR SOLUTION
 
     def permute(self, new_axes):
@@ -272,7 +273,11 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        stride = self._strides 
+        new_stride = [stride[i] for i in new_axes] 
+        out = NDArray.make(self.shape, strides = new_stride, device = self.device) 
+        
+        return out 
         ### END YOUR SOLUTION
 
     def broadcast_to(self, new_shape):
@@ -296,7 +301,9 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        out = NDArray.make(new_shape, device = self.device) # the strides are the same as the original array, because the broadcasted dimension still use stride 0 
+        
+        return out 
         ### END YOUR SOLUTION
 
     ### Get and set elements
@@ -362,8 +369,12 @@ class NDArray:
         )
         assert len(idxs) == self.ndim, "Need indexes equal to number of dimensions"
 
-        ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        ### BEGIN YOUR SOLUTION 
+        new_shape = [] 
+        for i, s in enumerate(idxs): 
+            new_shape.append((s.stop - s.start) // s.step + 1) 
+        out = NDArray.make(self.shape, device = self.device) 
+        return out 
         ### END YOUR SOLUTION
 
     def __setitem__(self, idxs, other):

@@ -247,7 +247,7 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        out = NDArray.make(new_shape, device = self.device) 
+        out = NDArray.make(new_shape, device = self.device, handle = self._handle, offset = self._offset) 
         return out 
         ### END YOUR SOLUTION
 
@@ -277,7 +277,7 @@ class NDArray:
         new_stride = [stride[i] for i in new_axes] 
         shape = self._shape 
         new_shape = [shape[i] for i in new_axes] 
-        out = NDArray.make(new_shape, strides = new_stride, device = self.device) 
+        out = NDArray.make(new_shape, strides = new_stride, device = self.device, handle = self._handle, offset = self._offset) 
         
         return out 
         ### END YOUR SOLUTION
@@ -303,7 +303,7 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        out = NDArray.make(new_shape, device = self.device) # the strides are the same as the original array, because the broadcasted dimension still use stride 0 
+        out = NDArray.make(new_shape, device = self.device, handle = self._handle, offset = self._offset) # the strides are the same as the original array, because the broadcasted dimension still use stride 0 
         
         return out 
         ### END YOUR SOLUTION
@@ -375,7 +375,7 @@ class NDArray:
         new_shape = [] 
         for i, s in enumerate(idxs): 
             new_shape.append((s.stop - s.start) // s.step + 1) 
-        out = NDArray.make(self.shape, device = self.device) 
+        out = NDArray.make(self.shape, device = self.device, handle = self._handle, offset = self._offset) 
         return out 
         ### END YOUR SOLUTION
 

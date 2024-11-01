@@ -149,7 +149,35 @@ void Compact(const CudaArray& a, CudaArray* out, std::vector<int32_t> shape,
                                          VecToCuda(strides), offset);
 }
 
-
+__global__ void EwiseSetitemKernel(const scalar_t* a, scalar_t* out, size_t size, CudaVec shape, 
+                                  CudaVec strides, size_t offset) { 
+  if (gid < size) { 
+    // convert gid to an array of indices 
+    int32_t offsetpow[MAX_VEC_SIZE]; 
+    int32_t idx[MAX_VEC_SIZE]; 
+    int32_t temp = gid; 
+    for (int i = shape.size - 1; i >= 0; i--) { 
+      if (i == shape.size - 1) { 
+        // offsetpow[i] = shape.data[i]; 
+        offsetpow[i] = 1; 
+      }else { 
+        // offsetpow[i] = offsetpow[i + 1] * shape.data[i]; 
+        offsetpow[i] = offsetpow[i + 1] * shape.data[i + 1]; 
+      }
+    } 
+    for (int i = 0; i < shape.size; i++) { 
+      idx[i] = temp / offsetpow[i]; 
+      temp = temp % offsetpow[i]; 
+    } 
+    // flatindex 
+    int32_t flatindex = 0; 
+    for (int i = 0; i < shape.size; i++) { 
+      flatindex += idx[i] * strides.data[i]; 
+    } 
+    // out[gid] = a[flatindex + offset]; 
+    out[flatindex + offset] = a[gid]; 
+  } 
+                                  } 
 
 void EwiseSetitem(const CudaArray& a, CudaArray* out, std::vector<int32_t> shape,
                   std::vector<int32_t> strides, size_t offset) {
@@ -165,7 +193,9 @@ void EwiseSetitem(const CudaArray& a, CudaArray* out, std::vector<int32_t> shape
    *   offset: offset of the *out* array (not a, which has zero offset, being compact)
    */
   /// BEGIN SOLUTION
-  assert(false && "Not Implemented");
+  CudaDims dim = CudaOneDim(out->size); 
+  EwiseSetitemKernel<<<dim.grid, dim.block>>>(a.ptr, out->ptr, out->size, VecToCuda(shape), 
+                                              VecToCuda(strides), offset); 
   /// END SOLUTION
 }
 

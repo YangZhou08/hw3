@@ -100,14 +100,16 @@ __global__ void CompactKernel(const scalar_t* a, scalar_t* out, size_t size, Cud
   /// BEGIN SOLUTION
   if (gid < size) { 
     // convert gid to an array of indices 
-    int32_t offsetpow[MAX_VEC_SIZE] = {0}; 
-    int32_t idx[MAX_VEC_SIZE] = {0}; 
+    int32_t offsetpow[MAX_VEC_SIZE]; 
+    int32_t idx[MAX_VEC_SIZE]; 
     int32_t temp = gid; 
     for (int i = shape.size - 1; i >= 0; i--) { 
       if (i == shape.size - 1) { 
-        offsetpow[i] = shape.data[i]; 
+        // offsetpow[i] = shape.data[i]; 
+        offsetpow[i] = 1; 
       }else { 
-        offsetpow[i] = offsetpow[i + 1] * shape.data[i]; 
+        // offsetpow[i] = offsetpow[i + 1] * shape.data[i]; 
+        offsetpow[i] = offsetpow[i + 1] * shape.data[i + 1]; 
       }
     } 
     for (int i = 0; i < shape.size; i++) { 

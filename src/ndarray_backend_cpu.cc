@@ -404,7 +404,13 @@ void ReduceMax(const AlignedArray& a, AlignedArray* out, size_t reduce_size) {
    */
 
   /// BEGIN SOLUTION
-  assert(false && "Not Implemented");
+  for (size_t i = 0; i < out->size; i++) { 
+    int maxval = a.ptr[i * reduce_size]; 
+    for (size_t j = 1; j < reduce_size; j++) { 
+      maxval = std::max(maxval, a.ptr[i * reduce_size + j]); 
+    } 
+    out->ptr[i] = maxval; 
+  } 
   /// END SOLUTION
 }
 
@@ -481,6 +487,6 @@ PYBIND11_MODULE(ndarray_backend_cpu, m) {
   // m.def("matmul", Matmul);
   // m.def("matmul_tiled", MatmulTiled);
 
-  // m.def("reduce_max", ReduceMax);
+  m.def("reduce_max", ReduceMax);
   // m.def("reduce_sum", ReduceSum);
 }

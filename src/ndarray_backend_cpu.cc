@@ -405,7 +405,9 @@ void ReduceMax(const AlignedArray& a, AlignedArray* out, size_t reduce_size) {
 
   /// BEGIN SOLUTION
   for (size_t i = 0; i < out->size; i++) { 
-    int maxval = a.ptr[i * reduce_size]; 
+    // int maxval = a.ptr[i * reduce_size]; 
+    needle::cpu::scalar_t maxval = a.ptr[i * reduce_size]; 
+    
     for (size_t j = 1; j < reduce_size; j++) { 
       maxval = std::max(maxval, a.ptr[i * reduce_size + j]); 
     } 

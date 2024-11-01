@@ -151,6 +151,8 @@ void Compact(const CudaArray& a, CudaArray* out, std::vector<int32_t> shape,
 
 __global__ void EwiseSetitemKernel(const scalar_t* a, scalar_t* out, size_t size, CudaVec shape, 
                                   CudaVec strides, size_t offset) { 
+  size_t gid = blockIdx.x * blockDim.x + threadIdx.x;
+  
   if (gid < size) { 
     // convert gid to an array of indices 
     int32_t offsetpow[MAX_VEC_SIZE]; 

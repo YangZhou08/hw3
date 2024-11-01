@@ -498,5 +498,5 @@ PYBIND11_MODULE(ndarray_backend_cpu, m) {
   // m.def("matmul_tiled", MatmulTiled);
 
   m.def("reduce_max", ReduceMax);
-  // m.def("reduce_sum", ReduceSum);
+  m.def("reduce_sum", ReduceSum);
 }

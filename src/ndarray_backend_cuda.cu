@@ -468,6 +468,24 @@ void EwiseTanh(const CudaArray& a, CudaArray* out) {
   EwiseTanhKernel<<<dim.grid, dim.block>>>(a.ptr, out->ptr, out->size); 
 } 
 
+__global__ void MatmulKernel(const scalar_t* a, const scalar_t* b, scalar_t* out,
+                             uint32_t M, uint32_t N, uint32_t P) {
+    // Calculate row and column based on block and thread index
+    uint32_t row = blockIdx.y * blockDim.y + threadIdx.y;
+    uint32_t col = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // Initialize the output element to zero
+    scalar_t value = 0;
+
+    // Perform the dot product for the (row, col) element of the result matrix
+    if (row < M && col < P) {
+        for (uint32_t k = 0; k < N; ++k) {
+            value += a[row * N + k] * b[k * P + col];
+        }
+        out[row * P + col] = value;
+    }
+} 
+
 void Matmul(const CudaArray& a, const CudaArray& b, CudaArray* out, uint32_t M, uint32_t N,
             uint32_t P) {
   /**
@@ -493,7 +511,12 @@ void Matmul(const CudaArray& a, const CudaArray& b, CudaArray* out, uint32_t M, 
    */
 
   /// BEGIN SOLUTION
-  assert(false && "Not Implemented");
+  const int BLOCK_SIZE = 16;  // or any other size, typically 16 or 32
+    dim3 block(BLOCK_SIZE, BLOCK_SIZE);
+    dim3 grid((P + BLOCK_SIZE - 1) / BLOCK_SIZE, (M + BLOCK_SIZE - 1) / BLOCK_SIZE);
+
+    // Launch the kernel
+    MatmulKernel<<<grid, block>>>(a.ptr, b.ptr, out->ptr, M, N, P);
   /// END SOLUTION
 }
 

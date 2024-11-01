@@ -623,6 +623,6 @@ PYBIND11_MODULE(ndarray_backend_cuda, m) {
 
   // m.def("matmul", Matmul);
 
-  // m.def("reduce_max", ReduceMax);
+  m.def("reduce_max", ReduceMax);
   // m.def("reduce_sum", ReduceSum);
 }

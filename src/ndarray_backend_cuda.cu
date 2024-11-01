@@ -195,8 +195,8 @@ void EwiseSetitem(const CudaArray& a, CudaArray* out, std::vector<int32_t> shape
    *   offset: offset of the *out* array (not a, which has zero offset, being compact)
    */
   /// BEGIN SOLUTION
-  CudaDims dim = CudaOneDim(out->size); 
-  EwiseSetitemKernel<<<dim.grid, dim.block>>>(a.ptr, out->ptr, out->size, VecToCuda(shape), 
+  CudaDims dim = CudaOneDim(a->size); 
+  EwiseSetitemKernel<<<dim.grid, dim.block>>>(a.ptr, out.ptr, a.size, VecToCuda(shape), 
                                               VecToCuda(strides), offset); 
   /// END SOLUTION
 }
